@@ -1,0 +1,66 @@
+
+
+<h2>Add a new car</h2>
+
+<form (ngSubmit)="addCar()">
+  <div class="selectors-container">
+    <div class="brand-selector">
+      <label for="make">Brand</label>
+      <input
+        type="text"
+        id="make"
+        [(ngModel)]="newCar.make"
+        name="make"
+        (input)="filterBrands(newCar.make)"
+        placeholder="Start typing a brand"
+        required
+        class="input-sm"
+      />
+      <!-- Displaying the list of brands only if there are results to show -->
+      <ul *ngIf="filteredBrands.length > 0 && newCar.make" class="brand-list-form">
+        <li *ngFor="let brand of filteredBrands" (click)="selectBrand(brand)">
+          {{ brand }}
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <label for="model">Model</label>
+      <select
+        id="model"
+        [(ngModel)]="newCar.model"
+        name="model"
+        [disabled]="!newCar.make"
+        required
+        class="input-sm"
+      >
+        <option value="" disabled *ngIf="newCar.make">Select a model</option>
+        <option *ngFor="let model of availableModels" [value]="model">
+          {{ model }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <button type="submit">Add a new car</button>
+</form>
+
+<h3>List of Cars</h3>
+<ul>
+  <li *ngFor="let car of cars">
+    {{ car.make }} {{ car.model }} 
+
+    <!-- Delete button with trash icon -->
+    <button (click)="deleteCar(car.id)" class="delete-icon-button">
+      <img src="assets/icons/trash.svg" alt="Delete" class="delete-icon" />
+    </button>
+
+    <!-- Details button with arrow icon -->
+    <button (click)="viewDetails(car.id)" class="details-icon-button">
+      <span class="details-label">Details</span>
+      <img src="assets/icons/arrow-right-short.svg" alt="Details" class="details-icon" />
+    </button>
+  </li>
+</ul>
+
+
+

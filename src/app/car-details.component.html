@@ -1,0 +1,76 @@
+<h2>{{ car?.make }} {{ car?.model }}</h2>
+
+<!-- Wyświetlanie komunikatu, jeśli samochód nie został znaleziony -->
+<div *ngIf="!car">
+  <p>Car not found.</p>
+</div>
+
+<!-- Wyświetlanie usług, jeśli istnieją -->
+<div *ngIf="services.length > 0">
+  <h3>Services:</h3>
+  <ul>
+    <li *ngFor="let service of services; let i = index" class="service-item">
+      <div class="service-date">
+        <span *ngIf="service.isEdited" class="edited-label">edited:</span>
+        {{ service.dateAdded }} <!-- Wyświetlanie daty dodania serwisu -->
+      </div>
+      {{ i + 1 }}. Parts cost: {{ service.partsCost }}$  Service cost: {{ service.serviceCost }}$  Total cost: {{ service.totalCost }}$
+      <div class="button-container">
+        <button (click)="editService(i)" class="edit-action-button">
+          <img src="assets/icons/edit.svg" alt="Edit" class="edit-action-icon" />
+        </button>
+        
+        <button (click)="deleteService(i)" class="delete-action-button">
+          <img src="assets/icons/trash.svg" alt="Delete" class="delete-action-icon" />
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Jeśli brak usług, wyświetl komunikat -->
+<div *ngIf="services.length === 0">
+  <h3>No services added yet.</h3>
+</div>
+
+<!-- Formularz dodawania lub edytowania usługi -->
+<div *ngIf="showServiceForm">
+  <h3>{{ isEditing ? 'Edit' : 'Add' }} Service</h3>
+  
+  <div>
+    <label for="partsCost">Parts Cost:</label>
+    <input 
+      id="partsCost" 
+      type="number" 
+      [(ngModel)]="serviceDetails.partsCost" 
+      (input)="updateTotalCost()" 
+      required 
+    />
+  </div>
+  
+  <div>
+    <label for="serviceCost">Service Cost:</label>
+    <input 
+      id="serviceCost" 
+      type="number" 
+      [(ngModel)]="serviceDetails.serviceCost" 
+      (input)="updateTotalCost()" 
+      required 
+    />
+  </div>
+
+  <div class="total-cost-container">
+    <label>Total:</label>
+    <span>{{ serviceDetails.totalCost }}$</span>
+  </div>
+
+  <div>
+    <button (click)="saveServiceDetails()">Save</button>
+    <button (click)="cancelEdit()">Cancel</button>
+  </div>
+</div>
+
+<!-- Przycisk dodawania nowej usługi -->
+<button *ngIf="!showServiceForm" (click)="toggleServiceForm()">
+  {{ services.length > 0 ? 'Add another service' : 'Add Service' }}
+</button>

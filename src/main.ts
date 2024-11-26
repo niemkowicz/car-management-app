@@ -1,6 +1,15 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { provideRouter, Routes } from '@angular/router';
 import { AppComponent } from './app/app.component';
+import { CarListComponent } from './app/car-list.component';
+import { CarDetailsComponent } from './app/car-details.component';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+const routes: Routes = [
+  { path: '', component: CarListComponent }, // Domyślny widok samochodów
+  { path: 'car-details/:id', component: CarDetailsComponent }, // Szczegóły samochodu
+  { path: '**', redirectTo: '', pathMatch: 'full' },
+];
+
+bootstrapApplication(AppComponent, {
+  providers: [provideRouter(routes)],
+}).catch((err) => console.error(err));
