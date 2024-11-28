@@ -1,20 +1,23 @@
 <h2>{{ car?.make }} {{ car?.model }}</h2>
 
-<!-- Wyświetlanie komunikatu, jeśli samochód nie został znaleziony -->
 <div *ngIf="!car">
   <p>Car not found.</p>
 </div>
 
-<!-- Wyświetlanie usług, jeśli istnieją -->
+
 <div *ngIf="services.length > 0">
   <h3>Services:</h3>
   <ul>
     <li *ngFor="let service of services; let i = index" class="service-item">
       <div class="service-date">
         <span *ngIf="service.isEdited" class="edited-label">edited:</span>
-        {{ service.dateAdded }} <!-- Wyświetlanie daty dodania serwisu -->
+        {{ service.dateAdded }} 
       </div>
-      {{ i + 1 }}. Parts cost: {{ service.partsCost }}$  Service cost: {{ service.serviceCost }}$  Total cost: {{ service.totalCost }}$
+      {{ i + 1 }}.
+      <span *ngIf="service.partsCost !== null">Parts cost: {{ service.partsCost }}$</span>
+      <span *ngIf="service.serviceCost !== null">Service cost: {{ service.serviceCost }}$</span>
+      <span *ngIf="service.totalCost !== null">Total cost: {{ service.totalCost }}$</span>
+      
       <div class="button-container">
         <button (click)="editService(i)" class="edit-action-button">
           <img src="assets/icons/edit.svg" alt="Edit" class="edit-action-icon" />
@@ -28,12 +31,10 @@
   </ul>
 </div>
 
-<!-- Jeśli brak usług, wyświetl komunikat -->
 <div *ngIf="services.length === 0">
   <h3>No services added yet.</h3>
 </div>
 
-<!-- Formularz dodawania lub edytowania usługi -->
 <div *ngIf="showServiceForm">
   <h3>{{ isEditing ? 'Edit' : 'Add' }} Service</h3>
   
@@ -70,7 +71,6 @@
   </div>
 </div>
 
-<!-- Przycisk dodawania nowej usługi -->
 <button *ngIf="!showServiceForm" (click)="toggleServiceForm()">
   {{ services.length > 0 ? 'Add another service' : 'Add Service' }}
 </button>

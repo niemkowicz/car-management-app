@@ -180,6 +180,7 @@ li button:focus {
 /* Resetowanie marginesów i paddingów, jeśli są niepotrzebne */
 label[for="model"], label[for="make"] {
   margin-left: 18px; /* Zachowanie konsystencji marginesów */
+  font-size: 12px;
 }
 
 /* Dla ostatniego elementu (Model) */

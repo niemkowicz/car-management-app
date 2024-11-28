@@ -44,7 +44,7 @@
   <button type="submit">Add a new car</button>
 </form>
 
-<h3>List of Cars</h3>
+<h2 *ngIf="cars.length > 0">List of cars</h2>
 <ul>
   <li *ngFor="let car of cars">
     {{ car.make }} {{ car.model }} 

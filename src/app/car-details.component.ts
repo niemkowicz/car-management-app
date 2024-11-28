@@ -10,12 +10,12 @@ interface Car {
 }
 
 interface ServiceDetails {
-  partsCost: number;
-  serviceCost: number;
+  partsCost: number | null; // Koszt części, może być null
+  serviceCost: number | null; // Koszt usługi, może być null
   totalCost: number;
   dateAdded: string;
-  isEdited: boolean; // Flaga informująca o edytowaniu
-  dateEdited?: string; // Data edytowania (opcjonalna)
+  isEdited: boolean;
+  dateEdited?: string;
 }
 
 @Component({
@@ -27,14 +27,14 @@ interface ServiceDetails {
 export class CarDetailsComponent implements OnInit {
   carId: string = '';
   car: Car | null = null;
-  cars: Car[] = []; // Lista samochodów
-  newCar: Car = { id: '', make: '', model: '' }; // Model do dodawania nowego samochodu
-  availableModels: string[] = []; // Modele dostępne dla wybranego brandu
-  services: ServiceDetails[] = []; // Lista usług dla samochodu
-  serviceDetails: ServiceDetails = { partsCost: 0, serviceCost: 0, totalCost: 0, dateAdded: '', isEdited: false }; // Zaktualizowana struktura danych usługi
-  showServiceForm: boolean = false; // Flaga pokazująca formularz usług
-  editingServiceIndex: number | null = null; // Indeks edytowanej usługi
-  isEditing: boolean = false; // Flaga informująca, czy jesteśmy w trybie edycji
+  cars: Car[] = [];
+  newCar: Car = { id: '', make: '', model: '' };
+  availableModels: string[] = [];
+  services: ServiceDetails[] = [];
+  serviceDetails: ServiceDetails = { partsCost: null, serviceCost: null, totalCost: 0, dateAdded: '', isEdited: false };
+  showServiceForm: boolean = false;
+  editingServiceIndex: number | null = null;
+  isEditing: boolean = false;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -48,123 +48,117 @@ export class CarDetailsComponent implements OnInit {
     this.loadCars(); // Załaduj samochody przy inicjalizacji
   }
 
-  // Załaduj szczegóły samochodu z localStorage
   loadCarDetails(carId: string) {
     const cars = JSON.parse(localStorage.getItem('cars') || '[]');
     this.car = cars.find((car: Car) => car.id === carId) || null;
   }
 
-  // Załaduj wszystkie samochody z localStorage
   loadCars() {
     this.cars = JSON.parse(localStorage.getItem('cars') || '[]');
   }
 
-  // Załaduj szczegóły usług dla samochodu z localStorage
   loadServiceDetails(carId: string) {
     const savedServiceDetails = JSON.parse(localStorage.getItem('serviceDetails') || '{}');
     this.services = Array.isArray(savedServiceDetails[carId]) ? savedServiceDetails[carId] : [];
   }
 
-  // Zapisz szczegóły usług do listy usług i localStorage
   saveServiceDetails() {
     if (this.car) {
-      const savedServiceDetails = JSON.parse(localStorage.getItem('serviceDetails') || '{}');
-      
-      // Oblicz całkowity koszt
-      this.serviceDetails.totalCost = this.serviceDetails.partsCost + this.serviceDetails.serviceCost;
-
-      if (this.editingServiceIndex === null) {
-        // Jeśli to nowa usługa, dodajemy datę dodania
-        this.serviceDetails.dateAdded = new Date().toLocaleString();
-        this.serviceDetails.isEdited = false; // Flaga na false przy dodaniu
-        this.serviceDetails.dateEdited = undefined; // Brak daty edytowania
-      } else {
-        // Jeśli edytujemy istniejącą usługę
-        this.serviceDetails.isEdited = true; // Flaga na true przy edycji
-        this.serviceDetails.dateEdited = `edited: ${new Date().toLocaleString()}`; // Dodajemy przedrostek "edited"
+      // Sprawdzanie, czy pola są puste (null) lub równe 0
+      if (
+        (this.serviceDetails.partsCost === null || this.serviceDetails.partsCost === 0) &&
+        (this.serviceDetails.serviceCost === null || this.serviceDetails.serviceCost === 0)
+      ) {
+        alert('Both parts cost and service cost must have valid values and cannot be empty or zero.');
+        return;
       }
-
-      // Dodajemy lub edytujemy usługę w localStorage
+  
+      const savedServiceDetails = JSON.parse(localStorage.getItem('serviceDetails') || '{}');
+  
+      this.serviceDetails.totalCost = (this.serviceDetails.partsCost ?? 0) + (this.serviceDetails.serviceCost ?? 0);
+  
+      if (this.editingServiceIndex === null) {
+        this.serviceDetails.dateAdded = new Date().toLocaleString();
+        this.serviceDetails.isEdited = false;
+        this.serviceDetails.dateEdited = undefined;
+      } else {
+        this.serviceDetails.isEdited = true;
+        this.serviceDetails.dateEdited = `edited: ${new Date().toLocaleString()}`;
+      }
+  
       if (!Array.isArray(savedServiceDetails[this.car.id])) {
         savedServiceDetails[this.car.id] = [];
       }
-
+  
       if (this.editingServiceIndex === null) {
         savedServiceDetails[this.car.id].push({ ...this.serviceDetails });
       } else {
         savedServiceDetails[this.car.id][this.editingServiceIndex] = { ...this.serviceDetails };
       }
-
-      // Zaktualizuj localStorage
+  
       localStorage.setItem('serviceDetails', JSON.stringify(savedServiceDetails));
-
-      // Załaduj usługi, aby odzwierciedlić zaktualizowaną listę
+  
       this.loadServiceDetails(this.car.id);
-
-      // Resetujemy formularz po zapisaniu
-      this.serviceDetails = { partsCost: 0, serviceCost: 0, totalCost: 0, dateAdded: '', isEdited: false };
+  
+      this.serviceDetails = { partsCost: null, serviceCost: null, totalCost: 0, dateAdded: '', isEdited: false };
       this.showServiceForm = false;
       this.isEditing = false;
     }
   }
 
-  // Przełącz widoczność formularza usług
-  toggleServiceForm() {
-    this.showServiceForm = !this.showServiceForm;
-    this.isEditing = false; // Ukryj tryb edycji, jeśli przełączamy formularz
-    if (!this.showServiceForm) {
-      this.resetForm(); // Zresetuj formularz, jeśli jest ukryty
+  checkForZeroValues() {
+    if (this.serviceDetails.partsCost === 0 && this.serviceDetails.serviceCost === 0) {
+      this.serviceDetails.partsCost = null;
+      this.serviceDetails.serviceCost = null;
+      alert('Both parts cost and service cost cannot be zero.');
     }
   }
 
-  // Edytowanie istniejącej usługi lub zamknięcie formularza edycji
+  toggleServiceForm() {
+    this.showServiceForm = !this.showServiceForm;
+    this.isEditing = false;
+    if (!this.showServiceForm) {
+      this.resetForm();
+    }
+  }
+
   editService(index: number) {
     if (this.isEditing && this.editingServiceIndex === index) {
-      // Jeśli formularz edycji jest już otwarty i klikniesz ponownie ten sam element, zamykamy formularz
       this.cancelEdit();
     } else {
-      // W przeciwnym razie rozpoczynamy edycję
       const serviceToEdit = this.services[index];
       this.serviceDetails = { ...serviceToEdit };
       this.editingServiceIndex = index;
-      this.showServiceForm = true; // Pokaż formularz w trybie edycji
-      this.isEditing = true; // Ustaw flagę na tryb edycji
+      this.showServiceForm = true;
+      this.isEditing = true;
     }
   }
 
-  // Usuwanie usługi
   deleteService(index: number) {
     if (this.car) {
-      // Potwierdzenie usunięcia
       const confirmDelete = window.confirm('Are you sure you want to delete this service?');
-      
       if (confirmDelete) {
         const savedServiceDetails = JSON.parse(localStorage.getItem('serviceDetails') || '{}');
-        savedServiceDetails[this.car.id].splice(index, 1); // Usuń usługę z tablicy
-        localStorage.setItem('serviceDetails', JSON.stringify(savedServiceDetails)); // Zaktualizuj localStorage
-  
-        // Załaduj usługi, aby odzwierciedlić zaktualizowaną listę
+        savedServiceDetails[this.car.id].splice(index, 1);
+        localStorage.setItem('serviceDetails', JSON.stringify(savedServiceDetails));
         this.loadServiceDetails(this.car.id);
       }
     }
   }
 
-  // Resetowanie formularza usług
   resetForm() {
-    this.serviceDetails = { partsCost: 0, serviceCost: 0, totalCost: 0, dateAdded: '', isEdited: false }; // Resetujemy także datę
+    this.serviceDetails = { partsCost: null, serviceCost: null, totalCost: 0, dateAdded: '', isEdited: false };
     this.editingServiceIndex = null;
-    this.isEditing = false; // Zresetuj tryb edycji
+    this.isEditing = false;
   }
 
-  // Anulowanie edycji
   cancelEdit() {
-    this.resetForm(); // Resetuje formularz
-    this.isEditing = false; // Zresetuj tryb edycji
-    this.showServiceForm = false; // Ukryj formularz
+    this.resetForm();
+    this.isEditing = false;
+    this.showServiceForm = false;
   }
 
-  // Dynamicznie oblicz całkowity koszt
   updateTotalCost() {
-    this.serviceDetails.totalCost = this.serviceDetails.partsCost + this.serviceDetails.serviceCost;
+    this.serviceDetails.totalCost = (this.serviceDetails.partsCost ?? 0) + (this.serviceDetails.serviceCost ?? 0);
   }
 }
