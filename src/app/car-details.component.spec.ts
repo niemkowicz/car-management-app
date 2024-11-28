@@ -2,17 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CarDetailsComponent } from './car-details.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs'; // dla mockowania danych
+import { of } from 'rxjs';
 
 describe('CarDetailsComponent', () => {
   let component: CarDetailsComponent;
   let fixture: ComponentFixture<CarDetailsComponent>;
 
-  // Mockowanie localStorage przed każdym testem
   let localStorageMock: any;
 
   beforeEach(async () => {
-    // Tworzenie mocka dla localStorage
     localStorageMock = {
       getItem: jasmine.createSpy('getItem'),
       setItem: jasmine.createSpy('setItem'),
@@ -29,7 +27,7 @@ describe('CarDetailsComponent', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: (key: string) => '1' // Mockowanie ID samochodu
+                get: (key: string) => '1'
               }
             }
           }
@@ -52,7 +50,7 @@ describe('CarDetailsComponent', () => {
     const mockCar = { id: '1', make: 'Toyota', model: 'Corolla' };
     localStorageMock.getItem.and.returnValue(JSON.stringify([mockCar]));
     
-    component.ngOnInit(); // Inicjalizacja komponentu
+    component.ngOnInit();
 
     expect(component.car).toEqual(mockCar);
     expect(localStorageMock.getItem).toHaveBeenCalledWith('cars');
@@ -62,7 +60,7 @@ describe('CarDetailsComponent', () => {
     component.serviceDetails.partsCost = 100;
     component.serviceDetails.serviceCost = 50;
     
-    component.updateTotalCost(); // Funkcja obliczająca całkowity koszt
+    component.updateTotalCost();
     
     expect(component.serviceDetails.totalCost).toBe(150);
   });
@@ -77,7 +75,7 @@ describe('CarDetailsComponent', () => {
     };
     
     component.services = [service];
-    fixture.detectChanges(); // Uruchomienie zmian w widoku
+    fixture.detectChanges();
 
     const compiled = fixture.nativeElement;
     const partsCost = compiled.querySelector('span.parts-cost');

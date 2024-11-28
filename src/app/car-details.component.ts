@@ -10,8 +10,8 @@ interface Car {
 }
 
 interface ServiceDetails {
-  partsCost: number | null; // Koszt części, może być null
-  serviceCost: number | null; // Koszt usługi, może być null
+  partsCost: number | null; 
+  serviceCost: number | null;
   totalCost: number;
   dateAdded: string;
   isEdited: boolean;
@@ -45,7 +45,7 @@ export class CarDetailsComponent implements OnInit {
       this.loadCarDetails(carId);
       this.loadServiceDetails(carId);
     }
-    this.loadCars(); // Załaduj samochody przy inicjalizacji
+    this.loadCars();
   }
 
   loadCarDetails(carId: string) {
@@ -64,7 +64,6 @@ export class CarDetailsComponent implements OnInit {
 
   saveServiceDetails() {
     if (this.car) {
-      // Sprawdzanie, czy pola są puste (null) lub równe 0
       if (
         (this.serviceDetails.partsCost === null || this.serviceDetails.partsCost === 0) &&
         (this.serviceDetails.serviceCost === null || this.serviceDetails.serviceCost === 0)

@@ -20,16 +20,16 @@ interface BrandModel {
 @Component({
   selector: 'app-car-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, NgSelectModule], // Importing ng-select module
+  imports: [CommonModule, FormsModule, HttpClientModule, NgSelectModule], 
   templateUrl: './car-list.component.html',
 })
 export class CarListComponent {
   cars: Car[] = [];
   brandsWithModels: BrandModel[] = [];
   availableModels: string[] = [];
-  newCar = { make: '', model: '' }; // Default values without year
-  filteredBrands: string[] = []; // Storing filtered brands
-    isBrandListVisible = false; // To manage visibility of the brand list
+  newCar = { make: '', model: '' }; 
+  filteredBrands: string[] = []; 
+    isBrandListVisible = false; 
 
 
   constructor(private router: Router, private http: HttpClient) {
@@ -41,9 +41,9 @@ export class CarListComponent {
   loadBrandsAndModels() {
     this.http.get<BrandModel[]>('assets/car-list.json').subscribe({
       next: (data) => {
-        console.log('Loaded brands:', data); // Debug
+        console.log('Loaded brands:', data); 
         this.brandsWithModels = data;
-        this.filteredBrands = data.map((b) => b.brand); // Initialize available brands
+        this.filteredBrands = data.map((b) => b.brand); 
       },
       error: (err) => {
         console.error('Error loading car-list.json:', err);
@@ -51,16 +51,14 @@ export class CarListComponent {
     });
   }
 
-  // Update available models when brand is selected
   onBrandChange() {
     const selectedBrand = this.newCar.make;
     const brand = this.brandsWithModels.find((b) => b.brand === selectedBrand);
-    console.log('Selected brand:', selectedBrand, 'Found models:', brand?.models); // Debug
+    console.log('Selected brand:', selectedBrand, 'Found models:', brand?.models); 
     this.availableModels = brand ? brand.models : [];
-    this.newCar.model = ''; // Reset model when changing brand
+    this.newCar.model = ''; 
   }
 
-  // Filter brands based on input
   filterBrands(searchText: string) {
     if (searchText.length === 0) {
       this.filteredBrands = [];
@@ -72,61 +70,48 @@ export class CarListComponent {
       .map((b) => b.brand);
   }
 
-  // Set selected brand
   selectBrand(brand: string) {
     this.newCar.make = brand;
-    this.filteredBrands = []; // Hide the list after selecting a brand
-    this.onBrandChange(); // Update available models
+    this.filteredBrands = []; 
+    this.onBrandChange(); 
   }
 
   addCar() {
-    // Sprawdzenie, czy marka i model zostały wybrane
     if (!this.newCar.make || !this.newCar.model) {
       alert('Please select a brand and model!');
       return;
     }
   
-    // Generowanie unikalnego ID dla nowego samochodu
     const id = Math.random().toString(36).substring(2, 15);
   
-    // Tworzenie nowego obiektu samochodu
     const car = { ...this.newCar, id } as Car;
   
-    // Dodanie nowego samochodu na początek listy
     this.cars.unshift(car);
   
-    // Zapisanie zaktualizowanej listy (jeśli jest wymagana funkcja saveCars)
     this.saveCars();
   
-    // Resetowanie formularza i dostępnych modeli
-    this.newCar = { make: '', model: '' }; // Reset po dodaniu
-    this.availableModels = []; // Reset modeli
+    this.newCar = { make: '', model: '' }; 
+    this.availableModels = []; 
   }
   
 
-  // Navigate to car details
   viewDetails(carId: string) {
     this.router.navigate(['/car-details', carId]);
   }
 
-  // Delete a car from the list
   deleteCar(carId: string) {
     if (confirm('Are you sure you want to delete this car?')) {
       this.cars = this.cars.filter((car) => car.id !== carId);
-      this.saveCars(); // Save updated list to localStorage
+      this.saveCars(); 
     }
   }
 
-  // Load cars from localStorage
   private loadCars() {
     const carsJson = localStorage.getItem('cars');
     this.cars = carsJson ? JSON.parse(carsJson) : [];
   }
 
-  // Save cars to localStorage
   private saveCars() {
     localStorage.setItem('cars', JSON.stringify(this.cars));
   }
-  
 }
-

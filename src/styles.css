@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100;200;300;400;500;600;700&display=swap');
 
-/* Styl globalny dla całego projektu */
 body {
   font-family: 'Roboto Flex';
-  margin: auto; /* Usuwa domyślny margines */
-  overflow-x: hidden; /* Blokuje przewijanie w poziomie */
+  margin: auto; 
+  overflow-x: hidden; 
   margin-right: 18px;
 }
 
@@ -15,7 +14,6 @@ h1, h2, h3 {
   margin-left: 18px;
 }
 
-/* Formularz dodawania samochodu */
 form div {
   margin-bottom: 20px;
 }
@@ -25,9 +23,8 @@ label {
   width: 120px;
   font-weight: bold;
   margin-left: 18px;
-
 }
-/* Dostosowanie etykiety "Model" */
+
 label[for="model"] {
   margin-left: 0;  
 }
@@ -39,7 +36,6 @@ input {
   border-radius: 4px;
   width: 200px;
   margin-left: 18px;
-
 }
 
 input:focus {
@@ -47,7 +43,6 @@ input:focus {
   outline: none;
 }
 
-/* Przycisk formularza */
 button {
   padding: 10px 20px;
   background-color: #28a745;
@@ -58,14 +53,12 @@ button {
   font-size: 16px;
   margin-right: 10px;
   margin-left: 18px;
-
 }
 
 button:hover {
   background-color: #218838;
 }
 
-/* Lista samochodów */
 ul {
   list-style: none;
   padding: 0;
@@ -75,9 +68,9 @@ li {
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
   display: flex;
-  justify-content: space-between; /* Rozdziela zawartość na dwie strony */
+  justify-content: space-between; 
   align-items: center;
-  width: 40%; /* Dostosowanie szerokości elementu li */
+  width: 40%; 
   margin-left: 18px;
 }
 
@@ -103,38 +96,29 @@ li button:focus {
   outline: none;
 }
 
-
-
-
-
-/* General styling for all form inputs */
 .input-sm {
-  width: 50%;              /* Make inputs take full available width */
-  height: 40px;             /* Set a fixed height for all inputs */
-  padding: 8px;             /* Padding inside the input */
-  font-size: 14px;          /* Set the font size */
-  border: 1px solid #ccc;  /* Border style */
-  border-radius: 4px;      /* Rounded corners */
-  box-sizing: border-box;  /* Ensures padding and border are included in the width/height calculation */
+  width: 50%;          
+  height: 40px;      
+  padding: 8px;    
+  font-size: 14px;        
+  border: 1px solid #ccc;  
+  border-radius: 4px;    
+  box-sizing: border-box;  
 }
 
-/* Dla ostatniego elementu (Model) */
 .selectors-container div:last-child label {
-  margin-left: 0; /* Usuwamy dodatkowy margines */
+  margin-left: 0; 
 }
 
-/* Flexbox container to align brand and model inputs horizontally */
-/* Adjust input styles for full-screen width and spacing */
 .selectors-container {
   display: flex;
   justify-content: space-between;
-  gap: 20px; /* Increased space between inputs to 20px */
+  gap: 20px; 
 }
 
 .selectors-container div {
-  flex: 1; /* Make both brand and model inputs share equal available width */
+  flex: 1; 
 }
-
 
 .brand-selector {
   position: relative;
@@ -142,29 +126,27 @@ li button:focus {
 
 .brand-selector input,
 .selectors-container select {
-  width: 100%;  /* Ensure inputs stretch to fill their container */
-  height: 40px; /* Consistent height */
-  box-sizing: border-box; /* Ensure padding/border are included in dimensions */
+  width: 100%; 
+  height: 40px; 
+  box-sizing: border-box; 
 }
 
-/* Dropdown list for brand spans full width of the input */
 .brand-list-form {
   position: absolute;
-  width: 100%; /* Dopasowanie szerokości dokładnie do szerokości inputa */
-  max-height: 200px; /* Maksymalna wysokość dla przewijania */
-  overflow-y: auto; /* Przewijanie w pionie */
+  width: 100%; 
+  max-height: 200px; 
+  overflow-y: auto;
   background-color: #fff;
   border: 1px solid #ccc;
   border-top: none;
   margin-top: 4px;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtelny cień */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   list-style: none;
   padding: 0;
-  box-sizing: border-box; /* Uwzględnij padding i border w wymiarach */
+  box-sizing: border-box;
   margin-left: 18px;
 }
-
 
 .brand-list-form li {
   padding: 8px;
@@ -176,19 +158,15 @@ li button:focus {
   background-color: #f0f0f0;
 }
 
-
-/* Resetowanie marginesów i paddingów, jeśli są niepotrzebne */
 label[for="model"], label[for="make"] {
-  margin-left: 18px; /* Zachowanie konsystencji marginesów */
+  margin-left: 18px; 
   font-size: 12px;
 }
 
-/* Dla ostatniego elementu (Model) */
 .selectors-container div:last-child label {
-  margin-left: 0; /* Usuwamy dodatkowy margines */
+  margin-left: 0; 
 }
 
-/* Buttons */
 button {
   padding: 8px 16px;
   font-size: 14px;
@@ -203,79 +181,55 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Styling for delete and details buttons in the list */
-.delete-icon-button,
-.details-icon-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.delete-icon-button img,
-.details-icon-button img {
-  width: 20px;
-  height: 20px;
-}
-
-.details-label {
-  margin-right: 5px;
-}
-
-/* Styl dla przycisku Delete z ikoną kosza */
 button.delete-icon-button {
-  background-color: #f0f0f0; /* Tło przycisku (jaśniejsze dla Delete) */
-  border: none; /* Usunięcie obramowania */
-  padding: 10px 15px; /* Odstępy wokół ikony */
-  cursor: pointer; /* Kursor wskaźnika */
-  display: inline-flex; /* Flexbox do ustawienia elementów w jednej linii */
-  align-items: center; /* Wyrównanie elementów w pionie */
-  border-radius: 4px; /* Zaokrąglone rogi */
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
   margin-left: auto;
 }
 
 button.delete-icon-button img.delete-icon {
-  width: 20px; /* Rozmiar ikony */
+  width: 20px;
   height: 20px;
 }
 
-/* Styl dla przycisku Details z ikoną strzałki */
 button.details-icon-button {
-  background-color: #007bff; /* Niebieskie tło */
-  border: none; /* Usunięcie obramowania */
-  padding: 10px 15px; /* Odstępy wokół ikony */
-  cursor: pointer; /* Kursor wskaźnika */
-  display: inline-flex; /* Flexbox do ustawienia elementów w jednej linii */
-  align-items: center; /* Wyrównanie elementów w pionie */
-  border-radius: 4px; /* Zaokrąglone rogi */
-  text-align: center; /* Wyśrodkowanie tekstu */
+  background-color: #007bff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  text-align: center;
   margin-right: 0;
 }
 
 button.details-icon-button .details-label {
-  font-size: 14px; /* Mniejszy rozmiar tekstu */
-  color: white; /* Biały kolor tekstu */
+  font-size: 14px;
+  color: white;
 }
 
-/* Styl dla ikony Details (strzałka) na biało */
 button.details-icon-button img.details-icon {
-  width: 20px; /* Rozmiar ikony */
+  width: 20px;
   height: 20px;
-  filter: brightness(0) invert(1); /* Zmienia kolor ikony na biały */
+  filter: brightness(0) invert(1);
 }
 
-/* Styl dla efektu hover na przycisku Details */
 button.details-icon-button:hover {
-  background-color: #0056b3; /* Ciemniejszy niebieski przy najechaniu */
+  background-color: #0056b3;
 }
 
-/* Styl dla efektu hover na przycisku Delete */
 button.delete-icon-button:hover {
-  background-color: #e0e0e0; /* Jasnoszare tło przy najechaniu */
+  background-color: #e0e0e0;
 }
-
 
 button.edit-icon-button,
-  .button.delete.button {
+.button.delete.button {
   background-color: #f0f0f0;
 }
 
@@ -283,55 +237,51 @@ button.edit-icon-button:hover {
   background-color: #d4d4d4;
 }
 
-
 .service-date {
-  font-size: 8px; /* Mała czcionka */
-  color: black;   /* Czarny kolor tekstu */
-  position: absolute; /* Umieszczenie w lewym górnym rogu */
-  top: 5px; /* Odstęp od góry */
-  left: 18px; /* Odstęp od lewej krawędzi */
-  z-index: 1; /* Zapewnia, że data będzie widoczna nad innymi elementami */
-  display: inline; /* Wyświetlanie w jednej linii */
+  font-size: 8px;
+  color: black;
+  position: absolute;
+  top: 5px;
+  left: 18px;
+  z-index: 1;
+  display: inline;
 }
 
 .edited-label {
-  font-size: 8px;  /* Ten sam rozmiar czcionki co data */
-  color: black;    /* Ten sam kolor jak dla daty */
-  margin-right: 3px; /* Odstęp między napisem "edited" a datą */
-  font-weight: normal; /* Zwykła czcionka (nie pogrubiona) */
+  font-size: 8px;
+  color: black;
+  margin-right: 3px;
+  font-weight: normal;
 }
 
-/* Styl dla każdego elementu listy usług */
 .service-item {
-  background-color: #f9f9f9; /* Przykładowy kolor tła */
+  background-color: #f9f9f9;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   width: 60%;
-  display: flex; /* Użycie flexboxa */
-  justify-content: space-between; /* Rozdzielenie elementów po obu stronach */
-  align-items: center; /* Wyrównanie w pionie */
-  position: relative; /* Konieczne do poprawnego wyświetlania daty wewnątrz itemu */
-  padding-left: 18px; /* Daje miejsce na datę w lewym górnym rogu */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-left: 18px;
 }
 
-/* Efekt hover dla elementów listy */
 .service-item:hover {
   transform: scale(1.02);
   background-color: #f1f1f1;
 }
 
-/* Kontener dla przycisków edytowania i usuwania */
 .service-item .button-container {
-  display: flex; /* Flexbox do umieszczenia przycisków obok siebie */
-  justify-content: flex-end; /* Przyciski wyrównane do prawej */
-  align-items: center; /* Wyrównanie przycisków w pionie */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .service-item button {
-  margin-left: 10px; /* Odstęp między przyciskami */
+  margin-left: 10px;
   cursor: pointer;
 }
 
@@ -350,14 +300,13 @@ button.edit-icon-button:hover {
   color: #007bff;;
 }
 
-
 .edit-action-button,
 .delete-action-button {
-  width: 30px; /* Szerokość przycisku */
-  height: 30px; /* Wysokość przycisku */
+  width: 30px;
+  height: 30px;
   border: none;
-  background-color: transparent; /* Tło przezroczyste */
-  padding: 0; /* Usuwamy padding */
+  background-color: transparent;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -365,37 +314,28 @@ button.edit-icon-button:hover {
 
 .edit-action-icon,
 .delete-action-icon {
-  width: 20px; /* Szerokość ikony */
-  height: 20px; /* Wysokość ikony */
+  width: 20px;
+  height: 20px;
 }
 
-
-
 .total-cost-container {
-  display: flex; /* Flexbox dla ułożenia w linii */
-  align-items: center; /* Wyrównanie w pionie, aby etykieta i kwota były na tej samej wysokości */
-  margin-bottom: 20px; /* Odstęp poniżej, przed polem "Service Cost" */
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .total-cost-container label {
-  font-weight: bold; /* Pogrubienie napisu */
-  margin-right: 20px; /* Odstęp między napisem a wartością */
+  font-weight: bold;
+  margin-right: 20px;
 }
 
 .total-cost-container span {
   font-size: 1.2em;
   font-weight: bold;
-  color: green; /* Kolor dla wartości */
+  color: green;
 }
 
-
-
-
-
-
-/* Styl dla urządzeń o szerokości do 480px (smartfony) */
 @media (max-width: 480px) {
-  /* Zmiana stylu formularza */
   label {
     width: 100px;
     font-size: 14px;
